@@ -21,19 +21,20 @@ function addListeners() {
     animaster().fadeOut(block, 5000);
   });
 
-  document
-    .getElementById("moveAndHidePlay")
-    .addEventListener("click", function () {
-      const block = document.getElementById("moveAndHideBlock");
-      animaster().moveAndHide(block, 1000);
-    });
+  document.getElementById("moveAndHidePlay").addEventListener("click", function () {
+    const block = document.getElementById("moveAndHideBlock");
+    animaster().moveAndHide(block, 1000);
+  });
 
-  document
-    .getElementById("showAndHidePlay")
-    .addEventListener("click", function () {
-      const block = document.getElementById("showAndHideBlock");
-      animaster().showAndHide(block, 1000, 1.25);
-    });
+  document.getElementById("showAndHidePlay").addEventListener("click", function () {
+    const block = document.getElementById("showAndHideBlock");
+    animaster().showAndHide(block, 1000);
+  });
+
+  document.getElementById("heartBeatingPlay").addEventListener("click", function () {
+    const block = document.getElementById("heartBeatingBlock");
+    animaster().heartBeating(block);
+  });
 }
 
 function animaster() {
@@ -62,7 +63,7 @@ function animaster() {
     },
 
     /**
-     * Функция, передвигающая элемент
+     * Функция, передвигающая элемент.
      * @param element — HTMLElement, который надо анимировать
      * @param duration — Продолжительность анимации в миллисекундах
      * @param translation — объект с полями x и y, обозначающими смещение блока
@@ -73,7 +74,7 @@ function animaster() {
     },
 
     /**
-     * Функция, увеличивающая/уменьшающая элемент
+     * Функция, увеличивающая/уменьшающая элемент.
      * @param element — HTMLElement, который надо анимировать
      * @param duration — Продолжительность анимации в миллисекундах
      * @param ratio — во сколько раз увеличить/уменьшить. Чтобы уменьшить, нужно передать значение меньше 1
@@ -85,7 +86,16 @@ function animaster() {
 
     moveAndHide(element, duration) {
       this.move(element, duration * 0.4, { x: 100, y: 20 });
-      setTimeout(this.fadeOut, duration * 0.4, element, duration * 0.6);
+      setTimeout(() => this.fadeOut(element, duration * 0.6), duration * 0.4);
+    },
+
+    heartBeating(element) {
+      this.scale(element, 500, 1.4);
+      setTimeout(() => this.scale(element, 500, 1), 500);
+      setInterval(() => {
+        this.scale(element, 500, 1.4);
+        setTimeout(() => this.scale(element, 500, 1), 500);
+      }, 1000);
     },
   };
 }
