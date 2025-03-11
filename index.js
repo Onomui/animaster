@@ -21,20 +21,32 @@ function addListeners() {
     animaster().fadeOut(block, 5000);
   });
 
-  document.getElementById("moveAndHidePlay").addEventListener("click", function () {
-    const block = document.getElementById("moveAndHideBlock");
-    animaster().moveAndHide(block, 1000);
-  });
+  document
+    .getElementById("moveAndHidePlay")
+    .addEventListener("click", function () {
+      const block = document.getElementById("moveAndHideBlock");
+      animaster().moveAndHide(block, 1000);
+    });
 
-  document.getElementById("showAndHidePlay").addEventListener("click", function () {
-    const block = document.getElementById("showAndHideBlock");
-    animaster().showAndHide(block, 1000);
-  });
+  document
+    .getElementById("showAndHidePlay")
+    .addEventListener("click", function () {
+      const block = document.getElementById("showAndHideBlock");
+      animaster().showAndHide(block, 1000, 1.25);
+    });
 
-  document.getElementById("heartBeatingPlay").addEventListener("click", function () {
-    const block = document.getElementById("heartBeatingBlock");
-    animaster().heartBeating(block);
-  });
+  document
+    .getElementById("heartBeatingPlay")
+    .addEventListener("click", function () {
+      const block = document.getElementById("heartBeatingBlock");
+      const stop = animaster().heartBeating(block, 1000);
+      document
+        .getElementById("heartBeatingStop")
+        .addEventListener("click", function () {
+          const block = document.getElementById("heartBeatingBlock");
+          stop.stop();
+        });
+    });
 }
 
 function animaster() {
@@ -116,6 +128,21 @@ function animaster() {
         element.style.height = "100px";
         element.classList.add("show");
     }
+    heartBeating(element) {
+      this.scale(element, 500, 1.4);
+      setTimeout(() => this.scale(element, 500, 1), 500);
+
+      const id = setInterval(() => {
+        this.scale(element, 500, 1.4);
+        setTimeout(() => this.scale(element, 500, 1), 500);
+      }, 1000);
+
+      return {
+        stop() {
+          clearInterval(id);
+        },
+      };
+    },
   };
 }
 
