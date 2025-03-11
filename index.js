@@ -38,7 +38,12 @@ function addListeners() {
     .getElementById("moveAndHidePlay")
     .addEventListener("click", function () {
       const block = document.getElementById("moveAndHideBlock");
-      animaster().moveAndHide(block, 1000);
+      const stop = animaster().moveAndHide(block, 1000);
+      document.getElementById("moveAndHideStop").addEventListener("click", function() {
+        stop();
+        animaster().resetFadeOut(block);
+        animaster().resetMoveAndScale(block);
+      })
     });
 
   document
@@ -52,7 +57,7 @@ function addListeners() {
     .getElementById("heartBeatingPlay")
     .addEventListener("click", function () {
       const block = document.getElementById("heartBeatingBlock");
-      const stop = animaster().heartBeating(block, 1000);
+      const stop = animaster().heartBeating(block);
       document
         .getElementById("heartBeatingStop")
         .addEventListener("click", function () {
@@ -111,16 +116,8 @@ function animaster() {
 
     moveAndHide(element, duration) {
       this.move(element, duration * 0.4, { x: 100, y: 20 });
-      setTimeout(() => this.fadeOut(element, duration * 0.6), duration * 0.4);
-    },
-
-    heartBeating(element) {
-      this.scale(element, 500, 1.4);
-      setTimeout(() => this.scale(element, 500, 1), 500);
-      setInterval(() => {
-        this.scale(element, 500, 1.4);
-        setTimeout(() => this.scale(element, 500, 1), 500);
-      }, 1000);
+      const id = setTimeout(() => this.fadeOut(element, duration * 0.6), duration * 0.4);
+      return () => clearTimeout(id);
     },
 
     resetFadeIn(element) {
@@ -138,7 +135,6 @@ function animaster() {
     resetMoveAndScale(element) {
         element.style.transitionDuration = null;
         element.style.transform = null;
-        
     },
 
     heartBeating(element) {
