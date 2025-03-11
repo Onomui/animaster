@@ -97,6 +97,25 @@ function animaster() {
         setTimeout(() => this.scale(element, 500, 1), 500);
       }, 1000);
     },
+
+    resetFadeIn(element) {
+        element.style.transitionDuration = null;
+        element.classList.remove("show");
+        element.classList.add("hide");
+    },
+
+    resetFadeOut(element) {
+        element.style.transitionDuration = null;
+        element.classList.remove("hide");
+        element.classList.add("show");
+    },
+
+    resetMoveAndScale(element) {
+        element.style.transitionDuration = null;
+        element.style.width = "100px";
+        element.style.height = "100px";
+        element.classList.add("show");
+    }
   };
 }
 
